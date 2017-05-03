@@ -31,7 +31,7 @@ module.exports = app => {
       const collection = db.collection(collectionName);
       const result = yield new Promise((resolve, reject) => {
         MongoPaging.find(collection, {
-          limit: this.ctx.query.size || 10,
+          limit: Number(this.ctx.query.size || 10),
           next: this.ctx.query.cursor
         }, (err, result) => {
           if (err) {

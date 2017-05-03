@@ -6,6 +6,6 @@ ADD ./ /opt/db_http_port
 WORKDIR /opt/db_http_port
 RUN npm install
 
-ENTRYPOINT ["npm run start"]
+ENTRYPOINT ["npm", "run", "start"]
 
 EXPOSE 7001

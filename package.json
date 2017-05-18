@@ -6,7 +6,8 @@
   "dependencies": {
     "egg": "^1.1.0",
     "mongo-cursor-pagination": "^4.1.1",
-    "mongodb": "^2.2.26"
+    "mongodb": "^2.2.26",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "autod": "^2.8.0",
@@ -28,7 +29,8 @@
     "cov": "egg-bin cov",
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
-    "autod": "autod"
+    "autod": "autod",
+    "debug": "egg-bin debug"
   },
   "ci": {
     "version": "6"

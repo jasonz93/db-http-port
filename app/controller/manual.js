@@ -89,9 +89,11 @@ module.exports = app => {
       }
       result.results.forEach((record) => {
         fakeRecords.push({
-          url: record.url,
-          source: record.platform,
-          sort: record.category
+          result: {
+            url: record.url,
+            source: record.platform,
+            sort: record.category
+          }
         });
       });
       result.results = fakeRecords;

@@ -82,7 +82,8 @@ module.exports = app => {
         });
       });
       this.ctx.body = {
-        results: fakeRecords
+        results: fakeRecords,
+        hasNext: false
       };
     }
   }

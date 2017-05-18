@@ -68,26 +68,11 @@ module.exports = app => {
 
     * getByPlatform() {
       const manualCollection = app.mongo.collection('manual_urls');
-      const result = yield new Promise((resolve, reject) => {
-        MongoPaging.find(manualCollection, {
-          query: {
-            platform: this.ctx.params.platform
-          },
-          limit: Number(this.ctx.query.size || 10),
-          next: this.ctx.query.cursor
-        }, (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        })
-      });
+      const results = yield manualCollection.find({
+        platform: this.ctx.params.platform
+      }).toArray();
       const fakeRecords = [];
-      if (!result.results) {
-        result.results = [];
-      }
-      result.results.forEach((record) => {
+      results.forEach((record) => {
         fakeRecords.push({
           result: {
             url: record.url,
@@ -96,8 +81,9 @@ module.exports = app => {
           }
         });
       });
-      result.results = fakeRecords;
-      this.ctx.body = result;
+      this.ctx.body = {
+        results: fakeRecords
+      };
     }
   }
 

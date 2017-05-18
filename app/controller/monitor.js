@@ -72,7 +72,9 @@ module.exports = app => {
         });
         result.push(task);
       }
-      this.ctx.body = result;
+      this.ctx.body = {
+        results: result
+      };
     }
   }
 

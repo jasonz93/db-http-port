@@ -5,4 +5,5 @@ module.exports = app => {
   app.get('/data/full/spider/:db/:collection', 'full.database');
   app.get('/monitor/tasks/:type/:platform', 'monitor.tasks');
   app.get('/manual/urls/:platform', 'manual.getByPlatform');
+  app.post('/manual/urls', 'manual.updateList');
 };

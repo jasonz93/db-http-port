@@ -4,21 +4,16 @@
 const uuid = require('uuid');
 
 module.exports = app => {
-  const MongoClient = require('mongodb').MongoClient;
-
   class MonitorController extends app.Controller {
-    constructor() {
-      super();
-      this.taskCollection = app.mongo.collection('monitor_tasks');
-    }
-
     * tasks() {
+      const taskCollection = this.app.mongo.collection('monitor_tasks');
       const now = new Date().getTime();
       const cursor = uuid.v4();
-      yield this.taskCollection.updateMany({
+      yield taskCollection.updateMany({
         $or: [
           {
             type: this.ctx.params.type,
+            platform: this.ctx.params.platform,
             start_time: {
               $lte: now
             },
@@ -34,6 +29,7 @@ module.exports = app => {
           },
           {
             type: this.ctx.params.type,
+            platform: this.ctx.params.platform,
             start_time: {
               $lte: now
             },
@@ -52,12 +48,12 @@ module.exports = app => {
           locked_by: cursor
         }
       });
-      const tasks = yield this.taskCollection.find({
+      const tasks = yield taskCollection.find({
         locked_by: cursor
       }).toArray();
       const result = [];
       for (let i = 0; i < tasks.length; i ++) {
-        let task = yield this.taskCollection.findOneAndUpdate({
+        let task = yield taskCollection.findOneAndUpdate({
           _id: tasks[i]._id
         }, {
           $set: {
@@ -70,7 +66,7 @@ module.exports = app => {
         }, {
           returnOriginal: false
         });
-        result.push(task);
+        result.push(task.value);
       }
       this.ctx.body = {
         results: result

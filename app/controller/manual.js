@@ -5,19 +5,15 @@ module.exports = app => {
   const MongoPaging = require('mongo-cursor-pagination');
 
   class ManualController extends app.Controller {
-    constructor() {
-      super();
-      this.manualCollection = app.mongo.collection('manual_urls');
-    }
-
     * updateList() {
       //url, uid, category, platform
 
     }
 
     * getByPlatform() {
+      manualCollection = app.mongo.collection('manual_urls');
       const result = yield new Promise((resolve, reject) => {
-        MongoPaging.find(this.manualCollection, {
+        MongoPaging.find(manualCollection, {
           query: {
             platform: this.ctx.params.platform
           },

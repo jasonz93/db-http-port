@@ -1,14 +1,16 @@
 /**
  * Created by zhangsihao on 2017/5/18.
  */
-const video_urls = [
-  'http://www.bilibili.com/video/av10590955/',
-  'http://www.bilibili.com/video/av10594912/',
-  'http://www.bilibili.com/video/av10573534/',
-  'http://www.bilibili.com/video/av10584052/?tg',
-  'http://www.bilibili.com/video/av10598007/',
-  'http://www.bilibili.com/video/av7992493/'
-];
+const video_urls = {
+  bilibili: [
+    'http://www.bilibili.com/video/av10590955/',
+    'http://www.bilibili.com/video/av10594912/',
+    'http://www.bilibili.com/video/av10573534/',
+    'http://www.bilibili.com/video/av10584052/?tg',
+    'http://www.bilibili.com/video/av10598007/',
+    'http://www.bilibili.com/video/av7992493/'
+  ]
+};
 
 const now = new Date().getTime();
 
@@ -64,6 +66,22 @@ const MongoClient = require('mongodb').MongoClient;
       });
     })
   }
+  let videos = [];
+  for (let platform in video_urls) {
+    video_urls[platform].forEach((video_url) => {
+      videos.push({
+        type: 'video',
+        platform: platform,
+        url: video_url,
+        interval: 10,
+        start_time: now,
+        end_time: now + 12000000,
+        next_tick: now
+      });
+    })
+  }
   await collection.insertMany(authors);
   console.log('Inserted %d authors.', authors.length);
+  await collection.insertMany(videos);
+  console.log('Inserted %d videos.', videos.length);
 })();

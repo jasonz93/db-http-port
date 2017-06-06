@@ -58,7 +58,7 @@ module.exports = app => {
             this.logger.warn('Unknown platform %s', parts[3]);
             return;
         }
-        record.category = parts[1].trim();
+        record.category = this.ctx.params.source + parts[1].trim();
         record.url = parts[4].trim();
         docs.push(record);
       });
